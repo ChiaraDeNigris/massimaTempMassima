@@ -19,14 +19,27 @@ function doCity(city, callback) {
   return promise;
 }
 async function display(city) {
-  let t = await doCity(city, data => data.main.temp);
+  let t = await doCity(city, data => data.main.temp_max);
   document.getElementById("risposta").innerHTML =
     "A " + city + " ci sono " + t + " gradi";
 }
 async function media() {
   let temps = await Promise.all(
-    cityElems.map(cityElem => doCity(cityElem.innerHTML, data => data.main.temp))
+    cityElems.map(cityElem =>
+      doCity(cityElem.innerHTML, data => data.main.temp_max)
+    )
   );
-  let somma = temps.reduce((somma, temp) => temp + somma);
-  document.getElementById("media").innerText = somma / cityElems.length;
+  //let somma = temps.reduce((somma, temp) => temp + somma, 0);
+
+  var massimo = temps.reduce((maxx, temp) => Math.max(temp, maxx));
+  document.getElementById("media").innerText = massimo;
 }
+/*
+async function media() {
+  let somma = 0;
+  for (let city of cityElems) {
+    somma += await doCity(city.innerHTML, data => data.main.temp);
+  }
+document.getElementById("media").innerText = somma/cityElems.length;
+}
+*/
