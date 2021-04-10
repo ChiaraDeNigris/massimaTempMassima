@@ -19,7 +19,7 @@ function doCity(city, callback) {
   return promise;
 }
 async function display(city) {
-  let t = await doCity(city, data => data.main.temp_max);
+  let t = await doCity(city, data => data.main.temp);
   document.getElementById("risposta").innerHTML =
     "A " + city + " ci sono " + t + " gradi";
 }
